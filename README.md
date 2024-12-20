@@ -97,5 +97,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [PyTorch](https://pytorch.org/)
 
 
-## Contact
-For any questions or suggestions, please contact [your email](mailto:youremail@example.com).
