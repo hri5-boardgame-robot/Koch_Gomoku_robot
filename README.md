@@ -3,6 +3,8 @@
 ## Overview
 Koch_Gomoku_robot is a project that integrates a robotic arm with an AI-based Gomoku (Five in a Row) game. The robot can play Gomoku against a human player by physically placing and detecting stones on a board.
 
+![Koch_Gomoku_robot Demo](imgs/demo.gif)  
+
 ## Features
 - **AI-based Gomoku Player**: Uses Monte Carlo Tree Search (MCTS) and a neural network to play Gomoku.
 - **Robotic Arm Control**: Controls a robotic arm to place stones on the board.
