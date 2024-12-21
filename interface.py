@@ -1,6 +1,7 @@
 import mujoco
 import numpy as np
 import mink
+import time
 
 
 class SimulatedRobot:
@@ -45,6 +46,7 @@ class SimulatedRobot:
         return ee_pos
 
     def inverse_kinematics_rot(self, ee_target_pos, ee_target_rot, rate=0.01, joint_name='joint6'):
+        # start_time = time.time()
         rotation = mink.SO3.from_matrix(ee_target_rot)
         T_wt = mink.SE3.from_rotation_and_translation(rotation, ee_target_pos)
 
@@ -68,6 +70,10 @@ class SimulatedRobot:
             self.configuration.integrate_inplace(vel, dt)
             err = self.end_effector_task.compute_error(self.configuration)
             if np.linalg.norm(err[:3]) <= pos_threshold and np.linalg.norm(err[3:]) <= ori_threshold:
+
+                # end_time = time.time()
+                # elapsed_time = (end_time - start_time)*1000
+                # print(f"Elapsed time: {elapsed_time:.2f} ms")
                 break
 
         q = self.configuration.q.copy()

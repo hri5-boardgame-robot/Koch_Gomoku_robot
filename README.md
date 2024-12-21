@@ -81,7 +81,7 @@ python Gomoku_AI/train_local.py
 ### Running the Robot
 To run the robot and play Gomoku, run:
 ```sh
-python test_robot.py
+python play.py
 ```
 
 ### Vision System
