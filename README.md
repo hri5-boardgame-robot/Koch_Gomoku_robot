@@ -5,6 +5,8 @@ Koch_Gomoku_robot is a project that integrates a robotic arm with an AI-based Go
 
 ![Koch_Gomoku_robot Demo](imgs/demo.gif)  
 
+[Watch the video demonstration](https://youtu.be/ioerYdkYhFU)  <!-- Add this line to include the YouTube link -->
+
 ## Features
 - **AI-based Gomoku Player**: Uses Monte Carlo Tree Search (MCTS) and a neural network to play Gomoku.
 - **Robotic Arm Control**: Controls a robotic arm to place stones on the board.
