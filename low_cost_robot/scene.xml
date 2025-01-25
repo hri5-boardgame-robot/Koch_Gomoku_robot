@@ -13,19 +13,68 @@
   </visual>
 
   <asset>
-    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
-    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"
-      markrgb="0.8 0.8 0.8" width="300" height="300"/>
-    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0"
+             width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge"
+             rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8"
+             width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texuniform="true"
+              texrepeat="5 5" reflectance="0.2"/>
+  </asset>
+
+  <!-- Adjusted scale values to make the boards smaller -->
+  <asset>
+    <mesh file="Gomoku_board_1.STL" name="gomoku_board" scale="0.001 0.001 0.001"/>
+  </asset>
+
+  <asset>
+    <mesh file="Gomoku_board_2.STL" name="gomoku_board2" scale="0.001 0.001 0.001"/>
+  </asset>
+
+  <asset>
+    <mesh file="Gomoku_piece_1.STL" name="gomoku_piece_1" scale="0.0009 0.0009 0.0009"/>
   </asset>
 
   <worldbody>
     <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
-    <camera name="closeup" pos="-0.078 -0.148 0.330" xyaxes="0.973 -0.230 0.000 0.167 0.705 0.690"/>
+    <camera name="closeup" pos="-0.078 -0.148 0.330"
+            xyaxes="0.973 -0.230 0.000 0.167 0.705 0.690"/>
+    <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"
+          pos="0 0 0" friction="0.1"/>
+<!-- 
+    <body name="gomoku_board" pos="0.09 0.06 0" euler="0 0 1.5708">
+      <geom type="mesh" mesh="gomoku_board" pos="0.01 0.0 0" rgba="0.82 0.65 0.27 1.0"/>
+    </body> -->
 
+    <body name="gomoku_board2" pos="0.09 0.06 0" euler="0 0 1.57079632679">
+      <geom type="mesh" mesh="gomoku_board2" pos="0.0225 0.0 0" rgba="0.8 0.6 0.2 1.0"/>
+      <geom type="mesh" mesh="gomoku_piece_1"  pos="0.119 0.099 0.021" rgba="1 1 1 1.0"/>
+      <geom type="mesh" mesh="gomoku_piece_1"  pos="0.119 0.116 0.021" rgba="0 0 0 1.0"/>
+      <geom type="mesh" mesh="gomoku_piece_1"  pos="0.119 0.133 0.021" rgba="0 0 0 1.0"/>
 
-    <geom name="floor" size="0 0 0.05" type="plane" material="groundplane" pos="0 0 0" friction="0.1"/>
+      <!-- Vertical lines: x from 0.025 to 0.205, y from 0.005 to 0.185, z=0.021 -->
+      <geom type="capsule" fromto="0.025 0.005 0.021  0.025 0.185 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.045 0.005 0.021  0.045 0.185 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.065 0.005 0.021  0.065 0.185 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.085 0.005 0.021  0.085 0.185 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.105 0.005 0.021  0.105 0.185 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.125 0.005 0.021  0.125 0.185 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.145 0.005 0.021  0.145 0.185 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.165 0.005 0.021  0.165 0.185 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.185 0.005 0.021  0.185 0.185 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.205 0.005 0.021  0.205 0.185 0.021" size="0.0002" rgba="0 0 0 1"/>
 
+      <!-- Horizontal lines: y from 0.005 to 0.185, x from 0.025 to 0.205, z=0.021 -->
+      <geom type="capsule" fromto="0.025 0.005 0.021  0.205 0.005 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.025 0.025 0.021  0.205 0.025 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.025 0.045 0.021  0.205 0.045 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.025 0.065 0.021  0.205 0.065 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.025 0.085 0.021  0.205 0.085 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.025 0.105 0.021  0.205 0.105 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.025 0.125 0.021  0.205 0.125 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.025 0.145 0.021  0.205 0.145 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.025 0.165 0.021  0.205 0.165 0.021" size="0.0002" rgba="0 0 0 1"/>
+      <geom type="capsule" fromto="0.025 0.185 0.021  0.205 0.185 0.021" size="0.0002" rgba="0 0 0 1"/>
+    </body>
   </worldbody>
-
 </mujoco>

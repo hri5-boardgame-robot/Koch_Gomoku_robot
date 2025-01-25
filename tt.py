@@ -13,7 +13,7 @@ class TestOmokuBot:
             self.robot.move_ee_position_cartesian(TAKE_PICK_POSITION)
             self.robot.reload()
 
-            self.robot.move_to_grid(0, 4)
+            self.robot.move_to_grid(4, 4)
 
             self.robot.move_down()
 
