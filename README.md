@@ -17,37 +17,62 @@ Koch_Gomoku_robot is a project that integrates a robotic arm with an AI-based Go
 ```
 .
 ├── dynamixel.py
-├── Gomoku_AI/
-│   ├── game.py
-│   ├── LICENSE
-│   ├── mcts_alphaZero.py
-│   ├── policy_value_net.py
-│   ├── README.md
-│   ├── renju_rule.py
-│   ├── save/
-│   │   └── model_9/
-│   ├── test.py
-│   └── train_local.py
-├── imgs/
+├── Gomoku_AI
+│   ├── reference_model.py
+│   ├── test_Vanilla_reference.py
+│   └── Vanilla_MCTS
+│       ├── game.py
+│       ├── mcts_alphaZero.py
+│       ├── policy_value_net.py
+│       ├── renju_rule.py
+│       ├── save
+│       │   └── model_9
+│       │       └── Vanilla_MCTS.model
+│       ├── test.py
+│       └── train_local.py
+├── imgs
+│   └── demo.gif
 ├── interface.py
 ├── LICENSE
-├── low_cost_robot/
-│   ├── assets/
-│   ├── low_cost_robot.xml
-│   └── scene.xml
+├── low_cost_robot
+│   ├── assets
+│   │   ├── arm.stl
+│   │   ├── base_link.stl
+│   │   ├── base.stl
+│   │   ├── elbow_to_wrist_extension.stl
+│   │   ├── elbow-to-wrist-motor-reference_v1_1.stl
+│   │   ├── elbow_to_wrist.stl
+│   │   ├── elbow_to_wrist_with_motor.stl
+│   │   ├── first-bracket-motor_1.stl
+│   │   ├── Gomoku_board_1.STL
+│   │   ├── Gomoku_board_2.STL
+│   │   ├── Gomoku_piece_1.STL
+│   │   ├── gripper-moving-part-dumb_v2_1.stl
+│   │   ├── gripper_moving_part.stl
+│   │   ├── gripper-static-motor-pt1.stl
+│   │   ├── gripper-static-motor-pt2.stl
+│   │   ├── gripper-static-motor_v2_1.stl
+│   │   ├── gripper_static_part.stl
+│   │   ├── shoulder_rotation.stl
+│   │   ├── shoulder-to-elbow-motor_v1_1.stl
+│   │   └── shoulder_to_elbow.stl
+│   ├── low_cost_robot.xml
+│   └── scene.xml
+├── MJMODEL.TXT
 ├── omoku_bot_v2.py
+├── play.py
 ├── README.md
+├── requirements.txt
 ├── robot.py
 ├── sync_simul_real.py
-├── test_robot.py
 ├── tt.py
-├── vis.py
-└── vision/
-    ├── __init__.py
+└── vision
     ├── initial.py
+    ├── __init__.py
     ├── test_camera.py
     ├── test_vision.py
     └── utils.py
+
 ```
 
 ## Installation
@@ -69,18 +94,21 @@ Koch_Gomoku_robot is a project that integrates a robotic arm with an AI-based Go
 ### Running the Gomoku AI
 To test the Gomoku AI, run:
 ```sh
-python Gomoku_AI/test.py
+cd Gomoku_AI/Vanilla_MCTS
+python Gomoku_AI/Vanilla_MCTS/test.py
 ```
 
 ### Training the Gomoku AI
 To train the Gomoku AI, run:
 ```sh
-python Gomoku_AI/train_local.py
+cd ..
+python Vanilla_MCTS/train_local.py
 ```
 
 ### Running the Robot
 To run the robot and play Gomoku, run:
 ```sh
+cd ..
 python play.py
 ```
 
