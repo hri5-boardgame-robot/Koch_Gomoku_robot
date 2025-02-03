@@ -95,7 +95,7 @@ Koch_Gomoku_robot is a project that integrates a robotic arm with an AI-based Go
 To test the Gomoku AI, run:
 ```sh
 cd Gomoku_AI/Vanilla_MCTS
-python Gomoku_AI/Vanilla_MCTS/test.py
+python test.py
 ```
 
 ### Training the Gomoku AI
