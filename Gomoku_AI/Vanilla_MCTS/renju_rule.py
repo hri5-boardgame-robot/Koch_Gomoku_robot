@@ -1,9 +1,4 @@
 empty = 0
-# black_stone = 1
-# white_stone = 2
-# last_b_stone = 3
-# last_a_stont = 4
-# tie = 100
 
 class Renju_Rule(object):
     def __init__(self, board, board_size):

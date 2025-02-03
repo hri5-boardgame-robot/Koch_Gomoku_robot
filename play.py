@@ -4,9 +4,9 @@ import numpy as np
 import cv2
 from vision.utils import warp_planar, update_board_circle, get_grid_points
 from vision.initial import manual_warping, find_board
-from Gomoku_AI.game import Board, Game
-from Gomoku_AI.mcts_alphaZero import MCTSPlayer
-from Gomoku_AI.policy_value_net import PolicyValueNet
+from Gomoku_AI.Vanilla_MCTS.game import VanillaBoard, VanillaGame
+from Gomoku_AI.Vanilla_MCTS.mcts_alphaZero import VanillaMCTSPlayer
+from Gomoku_AI.Vanilla_MCTS.policy_value_net import VanillaPolicyValueNet 
 
 
 class HumanPlayer:
@@ -215,6 +215,6 @@ class OmokuGame:
 
 
 if __name__ == '__main__':
-    model_path = './Gomoku_AI/save/model_9/policy_9_17100.model'
+    model_path = './Gomoku_AI/Vanilla_MCTS/save/model_9/Vanilla_MCTS.model'
     game = OmokuGame(model_path)
     game.run()

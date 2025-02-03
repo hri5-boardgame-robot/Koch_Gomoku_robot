@@ -4,20 +4,20 @@ import torch.optim as optim
 import torch.nn.functional as F
 import numpy as np
 
-class PolicyValueNet(nn.Module):
+class VanillaPolicyValueNet(nn.Module):
     def __init__(self, board_width, board_height):
-        super(PolicyValueNet, self).__init__()
+        super(VanillaPolicyValueNet, self).__init__()
         self.board_width = board_width
         self.board_height = board_height
 
         # Convolutional layers
-        self.conv1 = nn.Conv2d(4, 32, kernel_size=3, padding=1)
+        self.conv1 = nn.Conv2d(5, 32, kernel_size=3, padding=1)
         self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
         self.conv3 = nn.Conv2d(64, 128, kernel_size=3, padding=1)
 
         # Action policy layers
-        self.policy_conv = nn.Conv2d(128, 4, kernel_size=1)
-        self.policy_fc = nn.Linear(4 * board_width * board_height, board_width * board_height)
+        self.policy_conv = nn.Conv2d(128, 5, kernel_size=1)
+        self.policy_fc = nn.Linear(5 * board_width * board_height, board_width * board_height)
 
         # State value layers
         self.value_conv = nn.Conv2d(128, 2, kernel_size=1)
@@ -25,7 +25,6 @@ class PolicyValueNet(nn.Module):
         self.value_fc2 = nn.Linear(64, 1)
 
     def forward(self, state_input):
-        # 입력 데이터를 모델이 위치한 장치로 이동
         state_input = state_input.to(next(self.parameters()).device)
         # Convolutional layers with ReLU activations
         x = F.relu(self.conv1(state_input))
@@ -76,11 +75,9 @@ class PolicyValueNet(nn.Module):
 
     
     def save_model(self, model_path):
-        """모델을 지정된 경로에 저장"""
         torch.save(self.state_dict(), model_path)
-        print(f"모델이 {model_path}에 저장되었습니다.")
+        print(f"Model is saved in {model_path}.")
 
     def load_model(self, model_path):
-        """지정된 경로에서 모델을 로드"""
         self.load_state_dict(torch.load(model_path))
-        print(f"모델이 {model_path}에서 로드되었습니다.")
+        print(f"Model is loaded in {model_path}.")

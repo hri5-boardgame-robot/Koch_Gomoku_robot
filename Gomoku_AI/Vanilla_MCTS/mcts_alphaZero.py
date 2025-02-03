@@ -7,14 +7,14 @@ def softmax(x):
     return probs
 
 class TreeNode(object):
-    """ MCTS 트리의 노드.
+    """ MCTS Node of Tree.
     Q : its own value
     P : prior probability
     u : visit-count-adjusted prior score
     """
     def __init__(self, parent, prior_p):
         self._parent = parent
-        self._children = {}  # a map from action to TreeNode
+        self._children = {} 
         self._n_visits = 0
         self._Q = 0
         self._u = 0
@@ -25,7 +25,6 @@ class TreeNode(object):
         action_priors: a list of tuples of actions and their prior probability according to the policy function.
         """
         for action, prob in action_priors:
-            # 흑돌일 때 금수 위치는 트리 탐색을 하지 않도록 
             if is_you_black and action in forbidden_moves : continue
             if action not in self._children : self._children[action] = TreeNode(self, prob)
 
@@ -68,7 +67,7 @@ class TreeNode(object):
         return self._parent is None
 
 
-class MCTS(object):
+class VanillaMCTS(object):
     """An implementation of Monte Carlo Tree Search."""
 
     def __init__(self, policy_value_fn, c_puct=5, n_playout=10000): #c_puct=5, n_playout=10000
@@ -109,17 +108,24 @@ class MCTS(object):
             self._playout(state_copy)
 
         act_visits = [(act, node._n_visits) for act, node in self._root._children.items()]
-        # print([(state.move_to_location(m),v) for m,v in act_visits])
+        total_visits = sum(v for _, v in act_visits)
 
-        # acts = 위치번호 / visits = 방문횟수
-        acts, visits = zip(*act_visits)
-        act_probs = softmax(1.0/temp * np.log(np.array(visits) + 1e-10))
+        restricted_regions = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (0, 7), (0, 8),
+                            (1, 0), (1, 1), (1, 2), (1, 3), (1, 5), (1, 6), (1, 7), (1, 8),
+                            (2, 0), (2, 8), (8, 3), (8, 4), (8, 5)]
+        restricted_visits = sum(v for m, v in act_visits if tuple(state.move_to_location(m)) in restricted_regions)
+
+        restricted_prob = restricted_visits / total_visits if total_visits > 0 else 0
         
+        print(f"Restricted region visit probability: {restricted_prob:.4f}")
+
+        acts, visits = zip(*act_visits)
+        act_probs = softmax(1.0 / temp * np.log(np.array(visits) + 1e-10))
         return acts, act_probs
 
     def update_with_move(self, last_move):
         if last_move in self._root._children:
-            self._root = self._root._children[last_move] # 돌을 둔 위치가 root노드가 됨
+            self._root = self._root._children[last_move] 
             self._root._parent = None
         else:
             self._root = TreeNode(None, 1.0)
@@ -128,10 +134,10 @@ class MCTS(object):
         return "MCTS"
 
 
-class MCTSPlayer(object):
+class VanillaMCTSPlayer(object):
     def __init__(self, policy_value_function,
                  c_puct=5, n_playout=2000, is_selfplay=0):
-        self.mcts = MCTS(policy_value_function, c_puct, n_playout)
+        self.mcts = VanillaMCTS(policy_value_function, c_puct, n_playout)
         self._is_selfplay = is_selfplay
 
     def set_player_ind(self, p):
@@ -143,16 +149,17 @@ class MCTSPlayer(object):
     def get_action(self, board, temp=1e-3, return_prob=0):
         move_probs = np.zeros(board.width*board.height)
         if board.width*board.height - len(board.states) > 0:
-            # acts와 probs에 의해 착수 위치가 정해진다.
             acts, probs = self.mcts.get_move_probs(board, temp)      
             move_probs[list(acts)] = probs
             if self._is_selfplay:
-                # (자가 학습을 할 때는) Dirichlet 노이즈를 추가하여 탐색
                 move = np.random.choice(acts, p=0.75*probs + 0.25*np.random.dirichlet(0.3*np.ones(len(probs))))
                 self.mcts.update_with_move(move)
             else:
-                move = np.random.choice(acts, p=probs) # 확률론적인 방법
+                move = np.random.choice(acts, p=probs) 
                 self.mcts.update_with_move(-1)
+
+            h, w = board.move_to_location(move)
+            print(f"Position of Vanilla MCTS is : ({h}, {w})")
 
             if return_prob : return move, move_probs
             else : return move
